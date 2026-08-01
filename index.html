@@ -5,7 +5,6 @@
 <title>Mission Green Plate — คู่มือและแจ้งปัญหา</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="icon" type="image/jpeg" href="mgp-logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -149,20 +148,21 @@
 
   /* ---- Report ---- */
   #report{ padding-top:60px; padding-bottom:90px; }
-  .report-card{ padding:30px; }
+  .report-card{ padding:30px; text-align:center; }
   .report-card h3{ font-size:19px; margin-bottom:6px; }
-  .report-card .desc{ font-size:14px; color:#5b6b8c; margin-bottom:20px; }
-  .form-frame-wrap{
-    border-radius:20px; overflow:hidden; background:var(--sky);
-    box-shadow: inset 3px 3px 8px rgba(148,163,196,0.3);
+  .report-card .desc{ font-size:14px; color:#5b6b8c; margin-bottom:26px; }
+  .form-btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'Baloo 2',sans-serif; font-weight:700; font-size:17px;
+    color:var(--white); text-decoration:none;
+    background:linear-gradient(160deg, var(--kiosk-green), var(--leaf-deep));
+    padding:16px 34px; border-radius:20px;
+    box-shadow:0 10px 24px rgba(111,163,119,0.35);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .form-frame-wrap iframe{
-    width:100%; height:520px; border:none; display:block;
-  }
-  .fallback-link{
-    display:inline-block; margin-top:16px; font-size:13.5px;
-    color:var(--leaf-deep); text-decoration:underline;
-  }
+  .form-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(111,163,119,0.45); }
+  .form-btn:active{ transform:translateY(-1px); }
+  .form-hint{ margin-top:14px; font-size:12.5px; color:#8a97b3; }
 
   footer{
     text-align:center; padding:26px 20px 34px; font-size:12.5px; color:#7c8aa6;
@@ -176,7 +176,7 @@
     <img src="mgp-logo.png" alt="Mission Green Plate">
     <div class="brand-text">
       <div class="title">Mission Green Plate</div>
-      <div class="sub">คู่มือการใช้งานและแจ้งปัญหา</div>
+      <div class="sub">คู่มือและแจ้งปัญหา</div>
     </div>
   </div>
   <button class="hamburger" id="hamburgerBtn" aria-expanded="false" aria-label="เปิดเมนู">
@@ -188,7 +188,7 @@
 <nav class="nav-drawer" id="navDrawer">
   <button class="close-btn" id="closeBtn" aria-label="ปิดเมนู">✕</button>
   <a href="#home"><span class="dot"></span> หน้าแรก</a>
-  <a href="#manual"><span class="dot"></span> คู่มือการใช้งาน</a>
+  <a href="#manual"><span class="dot"></span> คู่มือการใช้เครื่อง</a>
   <a href="#report"><span class="dot"></span> แจ้งปัญหา</a>
 </nav>
 
@@ -199,8 +199,8 @@
   <div class="wrap">
     <img class="hero-logo" src="mgp-logo.png" alt="โลโก้ Mission Green Plate">
     <span class="eyebrow">MISSION GREEN PLATE</span>
-    <h1>MISSION GREEN PLATE</h1>
-    <p class="lead">ทุกคำที่กินหมด ลดขยะอาหาร ให้โลกยิ้มได้</p>
+    <h1>ภารกิจกู้จานเขียว</h1>
+    <p class="lead">ตู้สแกนจานอัจฉริยะที่ชวนเด็ก ๆ กินข้าวให้หมดจาน</p>
 
     <div class="objective-card clay">
       <h3>🌍 ทำไมต้องมีเครื่องนี้</h3>
@@ -277,15 +277,15 @@
 
     <div class="report-card clay">
       <h3>📝 แบบฟอร์มแจ้งปัญหา</h3>
-      <p class="desc">กรอกแบบฟอร์มด้านล่าง ข้อมูลของคุณจะถูกส่งตรงถึงทีมงาน</p>
-      <div class="form-frame-wrap">
-        <!--
-          🔧 แก้ตรงนี้: นำลิงก์ Google Form ของคุณมาใส่แทน
-          (ใช้ลิงก์แบบ Embed จาก Google Form: ปุ่ม Send > แท็บ <> > คัดลอกเฉพาะ URL ใน src)
-        -->
-        <iframe src="https://forms.gle/Efsp1yFrdpQjkwXr6" loading="lazy">กำลังโหลดฟอร์ม…</iframe>
-      </div>
-      <a class="fallback-link" href="https://docs.google.com/forms/d/e/1FAIpQLSflBdV-DrZYnBU1RGwYsoTBClsI1E386vO729SLY1zWxOQtsg/viewform?usp=dialog" target="_blank" rel="noopener">หากฟอร์มไม่แสดงผล กดเปิดในแท็บใหม่ที่นี่</a>
+      <p class="desc">กดปุ่มด้านล่างเพื่อกรอกแบบฟอร์ม ข้อมูลของคุณจะถูกส่งตรงถึงทีมงาน</p>
+      <!--
+        🔧 แก้ตรงนี้: นำลิงก์ Google Form ของคุณมาใส่แทน (ลิงก์ปกติที่ได้จากปุ่ม Send > 🔗 Link ก็ใช้ได้เลย
+        ไม่ต้องมี ?embedded=true หรือ forms.gle ก็ได้ เพราะเปิดในแท็บใหม่ ไม่ผ่าน iframe แล้ว)
+      -->
+      <a class="form-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSflBdV-DrZYnBU1RGwYsoTBClsI1E386vO729SLY1zWxOQtsg/viewform?usp=header" target="_blank" rel="noopener">
+        เปิดแบบฟอร์มแจ้งปัญหา →
+      </a>
+      <div class="form-hint">จะเปิดในแท็บใหม่ กรอกเสร็จแล้วปิดแท็บเพื่อกลับมาหน้านี้ได้เลย</div>
     </div>
   </div>
 </section>
