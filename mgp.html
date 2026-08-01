@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Mission Green Plate — คู่มือและแจ้งปัญหา</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/jpeg" href="mgp-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF;
+    --sky:#E3F2FD;
+    --mint:#E0F2F1;
+    --ink:#0F172A;
+    --ink-brand:#1E3A8A;
+    --leaf:#A5D6A7;
+    --leaf-deep:#6FA377;
+    --kiosk-green:#8FD14F;
+    --kiosk-dark:#1C4A26;
+    --banana:#FFF59D;
+    --banana-gold:#FFE082;
+    --grape:#E1BEE7;
+    --cyan:#3EC8D8;
+    --clay-light: rgba(255,255,255,0.85);
+    --clay-shadow: rgba(148,163,196,0.45);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; padding:0;
+    font-family:'Noto Sans Thai',sans-serif;
+    color:var(--ink);
+    background: radial-gradient(120% 60% at 50% 0%, var(--white) 0%, var(--sky) 45%, var(--mint) 100%);
+    background-attachment:fixed;
+  }
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;} }
+
+  h1,h2,h3{ font-family:'Baloo 2',sans-serif; margin:0; color:var(--ink-brand); }
+  p{ line-height:1.75; color:#3b4a63; }
+  a{ color:var(--leaf-deep); }
+
+  .clay{
+    background:var(--white); border-radius:28px;
+    box-shadow: 8px 8px 20px var(--clay-shadow), -8px -8px 20px var(--clay-light), inset 1px 1px 2px rgba(255,255,255,0.6);
+  }
+
+  .blob{ position:absolute; border-radius:50%; filter:blur(2px); pointer-events:none; z-index:0; }
+
+  /* =================== HEADER =================== */
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px;
+    background:rgba(255,255,255,0.75);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(111,163,119,0.18);
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand img{
+    width:46px; height:46px; border-radius:50%; object-fit:cover;
+    box-shadow:0 0 0 3px var(--white), 0 4px 10px rgba(30,58,138,0.2);
+  }
+  .brand-text{ line-height:1.2; }
+  .brand-text .title{ font-weight:700; font-size:17px; color:var(--ink-brand); }
+  .brand-text .sub{ font-size:12px; color:#5b6b8c; }
+
+  .hamburger{
+    width:46px; height:46px; border-radius:16px; border:none; cursor:pointer;
+    background:var(--white);
+    box-shadow: 4px 4px 10px var(--clay-shadow), -4px -4px 10px var(--clay-light);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  }
+  .hamburger span{
+    width:20px; height:2.5px; border-radius:2px; background:var(--ink-brand);
+    transition:transform 0.3s ease, opacity 0.3s ease;
+  }
+  .hamburger[aria-expanded="true"] span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+  .hamburger[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+  .hamburger[aria-expanded="true"] span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+
+  /* =================== NAV DRAWER =================== */
+  .nav-backdrop{
+    position:fixed; inset:0; background:rgba(15,23,42,0.35);
+    opacity:0; pointer-events:none; transition:opacity 0.35s ease; z-index:60;
+  }
+  .nav-backdrop.open{ opacity:1; pointer-events:auto; }
+
+  .nav-drawer{
+    position:fixed; top:0; right:0; height:100%; width:min(300px, 82vw);
+    background:var(--white); z-index:70;
+    transform:translateX(100%); transition:transform 0.4s cubic-bezier(.22,.9,.28,1);
+    padding:26px 22px; display:flex; flex-direction:column; gap:6px;
+    box-shadow:-10px 0 30px rgba(15,23,42,0.15);
+  }
+  .nav-drawer.open{ transform:translateX(0); }
+  .nav-drawer .close-btn{
+    align-self:flex-end; width:38px; height:38px; border-radius:12px; border:none;
+    background:var(--mint); color:var(--ink-brand); font-size:18px; cursor:pointer; margin-bottom:14px;
+  }
+  .nav-drawer a{
+    text-decoration:none; color:var(--ink-brand); font-family:'Baloo 2',sans-serif;
+    font-weight:600; font-size:18px; padding:14px 10px; border-radius:14px;
+    display:flex; align-items:center; gap:10px;
+    transition:background 0.2s ease;
+  }
+  .nav-drawer a:hover{ background:var(--sky); }
+  .nav-drawer a .dot{ width:8px; height:8px; border-radius:50%; background:var(--leaf-deep); }
+
+  /* =================== SECTIONS =================== */
+  section{ position:relative; padding:70px 22px; overflow:hidden; }
+  .wrap{ max-width:760px; margin:0 auto; position:relative; z-index:1; }
+  .eyebrow{
+    display:inline-block; font-family:'Baloo 2',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:0.06em; color:var(--leaf-deep); background:var(--mint);
+    padding:6px 16px; border-radius:20px; margin-bottom:16px;
+  }
+
+  /* ---- Home / Objective ---- */
+  #home{ padding-top:56px; text-align:center; }
+  #home .blob.b1{ width:220px; height:220px; background:var(--banana); opacity:0.3; top:-50px; left:-60px; }
+  #home .blob.b2{ width:260px; height:260px; background:var(--grape); opacity:0.25; bottom:10px; right:-70px; }
+  .hero-logo{ width:150px; height:150px; margin:0 auto 22px; display:block; filter:drop-shadow(0 14px 28px rgba(30,58,138,0.18)); }
+  #home h1{ font-size:34px; font-weight:800; margin-bottom:10px; }
+  #home .lead{ font-size:16px; color:#5b6b8c; margin-bottom:34px; }
+  .objective-card{ text-align:left; padding:30px 28px; margin-bottom:16px; }
+  .objective-card h3{ font-size:19px; margin-bottom:10px; }
+  .objective-card p{ font-size:15px; margin:0; }
+
+  /* ---- Manual ---- */
+  #manual{ padding-top:60px; }
+  .steps{ display:flex; flex-direction:column; gap:16px; margin-top:28px; }
+  .step{
+    display:flex; align-items:flex-start; gap:18px;
+    padding:22px 24px;
+  }
+  .step-num{
+    flex:none; width:42px; height:42px; border-radius:14px;
+    background:linear-gradient(160deg, var(--kiosk-green), var(--leaf-deep));
+    color:var(--white); font-family:'Baloo 2',sans-serif; font-weight:800; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .step h3{ font-size:16.5px; margin-bottom:4px; }
+  .step p{ font-size:14px; margin:0; }
+  .step-note{
+    margin-top:20px; font-size:13.5px; color:var(--leaf-deep);
+    background:var(--mint); padding:14px 18px; border-radius:16px; text-align:center;
+  }
+
+  /* ---- Report ---- */
+  #report{ padding-top:60px; padding-bottom:90px; }
+  .report-card{ padding:30px; }
+  .report-card h3{ font-size:19px; margin-bottom:6px; }
+  .report-card .desc{ font-size:14px; color:#5b6b8c; margin-bottom:20px; }
+  .form-frame-wrap{
+    border-radius:20px; overflow:hidden; background:var(--sky);
+    box-shadow: inset 3px 3px 8px rgba(148,163,196,0.3);
+  }
+  .form-frame-wrap iframe{
+    width:100%; height:520px; border:none; display:block;
+  }
+  .fallback-link{
+    display:inline-block; margin-top:16px; font-size:13.5px;
+    color:var(--leaf-deep); text-decoration:underline;
+  }
+
+  footer{
+    text-align:center; padding:26px 20px 34px; font-size:12.5px; color:#7c8aa6;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="mgp-logo.png" alt="Mission Green Plate">
+    <div class="brand-text">
+      <div class="title">Mission Green Plate</div>
+      <div class="sub">คู่มือการใช้งานและแจ้งปัญหา</div>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburgerBtn" aria-expanded="false" aria-label="เปิดเมนู">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="nav-backdrop" id="navBackdrop"></div>
+<nav class="nav-drawer" id="navDrawer">
+  <button class="close-btn" id="closeBtn" aria-label="ปิดเมนู">✕</button>
+  <a href="#home"><span class="dot"></span> หน้าแรก</a>
+  <a href="#manual"><span class="dot"></span> คู่มือการใช้งาน</a>
+  <a href="#report"><span class="dot"></span> แจ้งปัญหา</a>
+</nav>
+
+<!-- =================== HOME / วัตถุประสงค์ =================== -->
+<section id="home">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="wrap">
+    <img class="hero-logo" src="mgp-logo.png" alt="โลโก้ Mission Green Plate">
+    <span class="eyebrow">MISSION GREEN PLATE</span>
+    <h1>MISSION GREEN PLATE</h1>
+    <p class="lead">ทุกคำที่กินหมด ลดขยะอาหาร ให้โลกยิ้มได้</p>
+
+    <div class="objective-card clay">
+      <h3>🌍 ทำไมต้องมีเครื่องนี้</h3>
+      <p>ทุกวันในโรงอาหารโรงเรียน มีอาหารเหลือทิ้งจากจานที่กินไม่หมดเป็นจำนวนมาก กลายเป็นขยะอาหารสะสมโดยที่หลายคนอาจไม่ทันสังเกต</p>
+    </div>
+
+    <div class="objective-card clay">
+      <h3>🌱 เราจึงสร้าง Mission Green Plate</h3>
+      <p>ตู้สแกนจานที่ใช้ AI ตรวจสอบปริมาณอาหารเหลือโดยอัตโนมัติ ผูกกับระบบสะสมแต้มและเกมต่อสู้มอนสเตอร์ เปลี่ยนการกินหมดจานให้เป็นเรื่องสนุกที่เด็ก ๆ อยากทำเอง</p>
+    </div>
+
+    <div class="objective-card clay">
+      <h3>🎯 เป้าหมายของเรา</h3>
+      <p>ปลูกฝังนิสัยไม่เหลือทิ้งอาหารตั้งแต่วัยเด็ก และลดปริมาณขยะอาหารในโรงเรียนอย่างยั่งยืน</p>
+    </div>
+  </div>
+</section>
+
+<!-- =================== คู่มือการใช้เครื่อง =================== -->
+<section id="manual">
+  <div class="wrap">
+    <span class="eyebrow">คู่มือการใช้งาน</span>
+    <h2 style="font-size:28px; margin-bottom:6px;">ใช้งานเครื่องยังไง</h2>
+    <p style="margin-top:0;">ทำตาม 5 ขั้นตอนนี้ทุกครั้งหลังกินข้าวเสร็จ</p>
+
+    <div class="steps">
+      <div class="step clay">
+        <div class="step-num">1</div>
+        <div>
+          <h3>แตะบัตรประจำตัว</h3>
+          <p>นำบัตร NFC ประจำตัวของนักเรียนไปแตะที่เครื่องอ่านบัตรหน้าตู้</p>
+        </div>
+      </div>
+      <div class="step clay">
+        <div class="step-num">2</div>
+        <div>
+          <h3>วางถาดใต้กล้อง</h3>
+          <p>วางถาดอาหารที่กินเสร็จแล้วให้อยู่ในกรอบมองเห็นของกล้อง</p>
+        </div>
+      </div>
+      <div class="step clay">
+        <div class="step-num">3</div>
+        <div>
+          <h3>รอระบบตรวจสอบ</h3>
+          <p>ระบบจะตรวจสอบปริมาณอาหารที่เหลืออยู่ประมาณ 12 วินาที ระหว่างนี้ห้ามขยับถาด</p>
+        </div>
+      </div>
+      <div class="step clay">
+        <div class="step-num">4</div>
+        <div>
+          <h3>ดูผลลัพธ์บนจอ</h3>
+          <p>สถานะกินหมด/กินไม่หมด พร้อมคะแนนที่ได้จะแสดงขึ้นบนหน้าจอทันที</p>
+        </div>
+      </div>
+      <div class="step clay">
+        <div class="step-num">5</div>
+        <div>
+          <h3>สะสมแต้มไปเล่นเกม</h3>
+          <p>นำแต้มที่ได้ไปใช้ต่อสู้กับมอนสเตอร์ขยะอาหาร และไต่อันดับใน Leaderboard ได้ในเว็บของนักเรียน</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-note">💡 กินหมดจาน = ได้แต้มเต็ม ๆ ไปลุยเกมกันเลย!</div>
+  </div>
+</section>
+
+<!-- =================== แจ้งปัญหา =================== -->
+<section id="report">
+  <div class="wrap">
+    <span class="eyebrow">แจ้งปัญหา</span>
+    <h2 style="font-size:28px; margin-bottom:6px;">แจ้งปัญหาและข้อเสนอแนะ</h2>
+    <p style="margin-top:0;">มีข้อเสนอแนะ ปัญหา หรืออยากให้ปรับปรุงอะไร บอกเราได้เลยครับ</p>
+
+    <div class="report-card clay">
+      <h3>📝 แบบฟอร์มแจ้งปัญหา</h3>
+      <p class="desc">กรอกแบบฟอร์มด้านล่าง ข้อมูลของคุณจะถูกส่งตรงถึงทีมงาน</p>
+      <div class="form-frame-wrap">
+        <!--
+          🔧 แก้ตรงนี้: นำลิงก์ Google Form ของคุณมาใส่แทน
+          (ใช้ลิงก์แบบ Embed จาก Google Form: ปุ่ม Send > แท็บ <> > คัดลอกเฉพาะ URL ใน src)
+        -->
+        <iframe src="https://forms.gle/YhC2HcLb2dQGg6z88" loading="lazy">กำลังโหลดฟอร์ม…</iframe>
+      </div>
+      <a class="fallback-link" href="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/viewform" target="_blank" rel="noopener">หากฟอร์มไม่แสดงผล กดเปิดในแท็บใหม่ที่นี่</a>
+    </div>
+  </div>
+</section>
+
+<footer>Mission Green Plate — ระบบส่งเสริมการกินอาหารให้หมดจาน</footer>
+
+<script>
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const navDrawer = document.getElementById('navDrawer');
+  const navBackdrop = document.getElementById('navBackdrop');
+
+  function openNav(){
+    navDrawer.classList.add('open');
+    navBackdrop.classList.add('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeNav(){
+    navDrawer.classList.remove('open');
+    navBackdrop.classList.remove('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = navDrawer.classList.contains('open');
+    isOpen ? closeNav() : openNav();
+  });
+  closeBtn.addEventListener('click', closeNav);
+  navBackdrop.addEventListener('click', closeNav);
+  navDrawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+</script>
+
+</body>
+</html>
